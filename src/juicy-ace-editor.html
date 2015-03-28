@@ -78,9 +78,15 @@
             var session = editor.getSession();
             session.setMode( this.getAttribute("mode") );
             session.setUseSoftTabs( this.getAttribute("softtabs") );
+            session.setTabSize( this.getAttribute("tabsize") );
 
 
         this.editor = editor;
+        this.editor.getSession().on('input', function(){
+            if (this.onContentChanged) {
+                this.onContentChanged(editor.getValue());
+            }
+        }.bind(this));
 
         // Observe input textNode changes
         // Could be buggy as editor was also added to Light DOM;
